@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.outlined.Bolt
 import androidx.compose.material.icons.outlined.Download
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -44,6 +45,7 @@ private val bottomNavItems = listOf(
     BottomNavItem("About", Icons.Filled.Info, Icons.Outlined.Info, "about_fork"),
 )
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StellarNavigation() {
     val navController = rememberNavController()

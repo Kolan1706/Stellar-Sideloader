@@ -41,7 +41,6 @@ fun DownloadsScreen(
                     Icon(Icons.Filled.Refresh, contentDescription = "Refresh")
                 }
             },
-            backgroundColor = MaterialTheme.colorScheme.surface,
         )
 
         when {
