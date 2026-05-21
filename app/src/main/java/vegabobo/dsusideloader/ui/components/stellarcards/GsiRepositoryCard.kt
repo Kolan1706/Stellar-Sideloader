@@ -63,7 +63,6 @@ fun GsiRepositoryCard(
             animation = tween(2000, easing = LinearEasing),
             repeatMode = RepeatMode.Restart,
         ),
-        label = "progress",
     )
 
     StellarCard(
