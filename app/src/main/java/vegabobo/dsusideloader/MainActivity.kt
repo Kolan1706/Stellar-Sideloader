@@ -21,8 +21,8 @@ import vegabobo.dsusideloader.service.PrivilegedProvider
 import vegabobo.dsusideloader.service.PrivilegedRootService
 import vegabobo.dsusideloader.service.PrivilegedService
 import vegabobo.dsusideloader.service.PrivilegedSystemService
-import vegabobo.dsusideloader.ui.screen.Navigation
-import vegabobo.dsusideloader.ui.theme.DSUHelperTheme
+import vegabobo.dsusideloader.ui.screen.StellarNavigation
+import vegabobo.dsusideloader.ui.theme.stellar.StellarTheme
 import vegabobo.dsusideloader.util.OperationMode
 import vegabobo.dsusideloader.util.OperationModeUtils
 
@@ -134,8 +134,8 @@ class MainActivity : ComponentActivity(), Shizuku.OnRequestPermissionResultListe
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
-            DSUHelperTheme {
-                Navigation()
+            StellarTheme {
+                StellarNavigation()
             }
         }
 
