@@ -38,7 +38,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import vegabobo.dsusideloader.ui.screen.theme.ThemeViewModel
-import vegabobo.dsusideloader.ui.theme.stellar.*
+import vegabobo.dsusideloader.ui.theme.stellar.StellarAccent
+import vegabobo.dsusideloader.ui.theme.stellar.ThemePreset
 import vegabobo.dsusideloader.util.collectAsStateWithLifecycle
 
 @Composable

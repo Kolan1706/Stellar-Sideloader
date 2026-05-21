@@ -10,7 +10,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import vegabobo.dsusideloader.ui.components.stellarcards.StellarCard
 
@@ -55,7 +54,7 @@ fun ForkAboutScreen() {
                     "Bottom navigation with quick access",
                 ).forEach { feature ->
                     Text(
-                        text = "• $feature",
+                        text = "\u2022 $feature",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
