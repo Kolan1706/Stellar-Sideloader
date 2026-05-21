@@ -40,6 +40,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import vegabobo.dsusideloader.ui.screen.theme.ThemeViewModel
 import vegabobo.dsusideloader.ui.theme.stellar.StellarAccent
 import vegabobo.dsusideloader.ui.theme.stellar.ThemePreset
+import vegabobo.dsusideloader.ui.theme.stellar.toColor
 import vegabobo.dsusideloader.util.collectAsStateWithLifecycle
 
 @Composable
@@ -47,7 +48,7 @@ fun ThemeCustomizationCard(
     themeViewModel: ThemeViewModel = hiltViewModel(),
 ) {
     val themeState by themeViewModel.uiState.collectAsStateWithLifecycle()
-    val accentColors = StellarAccent.entries
+    val accentColors = StellarAccent.values()
 
     val bgPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent(),
@@ -73,7 +74,7 @@ fun ThemeCustomizationCard(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            ThemePreset.entries.forEach { preset ->
+            ThemePreset.values().forEach { preset ->
                 val isActive = themeState.selectedPreset == preset
                 Box(
                     modifier = Modifier

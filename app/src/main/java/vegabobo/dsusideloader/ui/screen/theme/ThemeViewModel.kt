@@ -4,6 +4,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -36,8 +37,8 @@ class ThemeViewModel @Inject constructor(
             val bgUri = readStringPref(AppPrefs.THEME_BACKGROUND_URI)
 
             _uiState.value = ThemeSettings(
-                selectedAccent = StellarAccent.entries.firstOrNull { it.name == accentStr } ?: StellarAccent.TEAL,
-                selectedPreset = ThemePreset.entries.firstOrNull { it.name == presetStr } ?: ThemePreset.SPACE_CUSTOM,
+                selectedAccent = StellarAccent.values().firstOrNull { it.name == accentStr } ?: StellarAccent.TEAL,
+                selectedPreset = ThemePreset.values().firstOrNull { it.name == presetStr } ?: ThemePreset.SPACE_CUSTOM,
                 blurValue = blur,
                 backgroundUri = bgUri,
             )
