@@ -41,6 +41,10 @@ fun DownloadsScreen(
                     Icon(Icons.Filled.Refresh, contentDescription = "Refresh")
                 }
             },
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.surface,
+                titleContentColor = MaterialTheme.colorScheme.onSurface,
+            ),
         )
 
         when {
@@ -71,6 +75,7 @@ fun DownloadsScreen(
                             files = uiState.files,
                             isLoading = false,
                             error = null,
+                            onDownload = { viewModel.downloadFile(it) },
                         )
                     }
                 }

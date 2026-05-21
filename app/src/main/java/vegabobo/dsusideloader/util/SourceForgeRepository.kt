@@ -14,21 +14,18 @@ object SourceForgeRepository {
     private const val RSS_URL = "https://sourceforge.net/projects/stellar-gsi-updates/rss?path=/"
 
     suspend fun fetchGsiFiles(): List<StellarGsiFile> = withContext(Dispatchers.IO) {
-        try {
-            val url = URL(RSS_URL)
-            val connection = url.openConnection() as HttpURLConnection
-            connection.requestMethod = "GET"
-            connection.connectTimeout = 10000
-            connection.readTimeout = 10000
-            connection.setRequestProperty("Accept", "application/rss+xml")
+        val url = URL(RSS_URL)
+        val connection = url.openConnection() as HttpURLConnection
+        connection.requestMethod = "GET"
+        connection.connectTimeout = 10000
+        connection.readTimeout = 10000
+        connection.setRequestProperty("Accept", "application/rss+xml")
 
-            val xml = connection.inputStream.bufferedReader().use { it.readText() }
-            connection.disconnect()
-            parseRss(xml)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            emptyList()
-        }
+        val xml = connection.inputStream.bufferedReader().use { it.readText() }
+        connection.disconnect()
+        val result = parseRss(xml)
+        if (result.isEmpty()) throw RuntimeException("RSS feed returned no items")
+        result
     }
 
     private fun parseRss(xml: String): List<StellarGsiFile> {

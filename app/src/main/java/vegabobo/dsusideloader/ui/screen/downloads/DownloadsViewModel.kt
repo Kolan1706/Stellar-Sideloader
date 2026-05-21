@@ -1,15 +1,18 @@
 package vegabobo.dsusideloader.ui.screen.downloads
 
+import android.app.Application
+import android.content.Intent
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import vegabobo.dsusideloader.model.StellarGsiFile
 import vegabobo.dsusideloader.util.SourceForgeRepository
-import javax.inject.Inject
 
 data class DownloadsUiState(
     val files: List<StellarGsiFile> = emptyList(),
@@ -20,7 +23,9 @@ data class DownloadsUiState(
 )
 
 @HiltViewModel
-class DownloadsViewModel @Inject constructor() : ViewModel() {
+class DownloadsViewModel @Inject constructor(
+    private val application: Application,
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(DownloadsUiState())
     val uiState: StateFlow<DownloadsUiState> = _uiState.asStateFlow()
@@ -84,5 +89,18 @@ class DownloadsViewModel @Inject constructor() : ViewModel() {
         }
 
         return result
+    }
+
+    fun downloadFile(file: StellarGsiFile) {
+        try {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(file.downloadUrl)).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            application.startActivity(intent)
+        } catch (e: Exception) {
+            _uiState.value = _uiState.value.copy(
+                error = "Failed to open download: ${e.message}",
+            )
+        }
     }
 }

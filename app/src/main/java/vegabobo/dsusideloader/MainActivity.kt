@@ -8,7 +8,10 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.getValue
 import androidx.core.view.WindowCompat
+import androidx.hilt.navigation.compose.hiltViewModel
+import vegabobo.dsusideloader.util.collectAsStateWithLifecycle
 import com.topjohnwu.superuser.Shell
 import com.topjohnwu.superuser.ipc.RootService
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,6 +25,7 @@ import vegabobo.dsusideloader.service.PrivilegedRootService
 import vegabobo.dsusideloader.service.PrivilegedService
 import vegabobo.dsusideloader.service.PrivilegedSystemService
 import vegabobo.dsusideloader.ui.screen.StellarNavigation
+import vegabobo.dsusideloader.ui.screen.theme.ThemeViewModel
 import vegabobo.dsusideloader.ui.theme.stellar.StellarTheme
 import vegabobo.dsusideloader.util.OperationMode
 import vegabobo.dsusideloader.util.OperationModeUtils
@@ -134,7 +138,12 @@ class MainActivity : ComponentActivity(), Shizuku.OnRequestPermissionResultListe
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
-            StellarTheme {
+            val themeViewModel: ThemeViewModel = hiltViewModel()
+            val themeState by themeViewModel.uiState.collectAsStateWithLifecycle()
+            StellarTheme(
+                accent = themeState.selectedAccent,
+                preset = themeState.selectedPreset,
+            ) {
                 StellarNavigation()
             }
         }

@@ -53,8 +53,9 @@ fun GsiRepositoryCard(
     isLoading: Boolean,
     error: String?,
     onRetry: (() -> Unit)? = null,
+    onDownload: ((StellarGsiFile) -> Unit)? = null,
 ) {
-    val infiniteTransition = rememberInfiniteTransition()
+    val infiniteTransition = rememberInfiniteTransition(label = "progress")
     val animatedProgress by infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = 1f,
@@ -62,6 +63,7 @@ fun GsiRepositoryCard(
             animation = tween(2000, easing = LinearEasing),
             repeatMode = RepeatMode.Restart,
         ),
+        label = "progress",
     )
 
     StellarCard(
@@ -109,23 +111,14 @@ fun GsiRepositoryCard(
 
         Spacer(Modifier.height(8.dp))
 
-        files.take(10).forEach { file ->
-            GsiFileRow(file = file)
+        files.forEach { file ->
+            GsiFileRow(file = file, onDownload = onDownload)
             Spacer(Modifier.height(6.dp))
-        }
-
-        if (files.size > 10) {
-            Text(
-                text = "+${files.size - 10} more files...",
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(top = 4.dp),
-            )
         }
 
         Spacer(Modifier.height(8.dp))
         LinearProgressIndicator(
-            progress = animatedProgress,
+            progress = { animatedProgress },
             modifier = Modifier.fillMaxWidth().height(4.dp).clip(RoundedCornerShape(2.dp)),
             color = NavActive,
             trackColor = NavActive.copy(alpha = 0.2f),
@@ -134,7 +127,10 @@ fun GsiRepositoryCard(
 }
 
 @Composable
-private fun GsiFileRow(file: StellarGsiFile) {
+private fun GsiFileRow(
+    file: StellarGsiFile,
+    onDownload: ((StellarGsiFile) -> Unit)? = null,
+) {
     var expanded by remember { mutableStateOf(false) }
 
     Column(
@@ -176,7 +172,7 @@ private fun GsiFileRow(file: StellarGsiFile) {
         if (expanded) {
             Spacer(Modifier.height(8.dp))
             Button(
-                onClick = { /* download */ },
+                onClick = { onDownload?.invoke(file) },
                 modifier = Modifier.fillMaxWidth().height(36.dp),
                 shape = RoundedCornerShape(10.dp),
                 colors = ButtonDefaults.buttonColors(

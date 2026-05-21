@@ -22,6 +22,7 @@ data class StellarGsiFile(
                 .removeSuffix(".7z")
                 .removePrefix("[erofs]_")
                 .removePrefix("[ext4]_")
+                .replace("StallerGSI", "StellarGSI")
         }
 
     val fsType: String

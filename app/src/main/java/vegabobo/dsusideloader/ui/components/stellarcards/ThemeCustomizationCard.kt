@@ -1,5 +1,7 @@
 package vegabobo.dsusideloader.ui.components.stellarcards
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -28,27 +30,31 @@ import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import vegabobo.dsusideloader.ui.theme.stellar.StellarAccent
-import vegabobo.dsusideloader.ui.theme.stellar.ThemePreset
-import vegabobo.dsusideloader.ui.theme.stellar.toColor
+import androidx.hilt.navigation.compose.hiltViewModel
+import vegabobo.dsusideloader.ui.screen.theme.ThemeViewModel
+import vegabobo.dsusideloader.ui.theme.stellar.*
+import vegabobo.dsusideloader.util.collectAsStateWithLifecycle
 
 @Composable
-fun ThemeCustomizationCard() {
-    var selectedPreset by remember { mutableStateOf(ThemePreset.SPACE_CUSTOM) }
-    var selectedAccent by remember { mutableStateOf(StellarAccent.PURPLE) }
-    var blurValue by remember { mutableStateOf(0.3f) }
-    var showColorPicker by remember { mutableStateOf(false) }
+fun ThemeCustomizationCard(
+    themeViewModel: ThemeViewModel = hiltViewModel(),
+) {
+    val themeState by themeViewModel.uiState.collectAsStateWithLifecycle()
+    val accentColors = StellarAccent.entries
 
-    val accentColors = StellarAccent.values()
+    val bgPickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent(),
+    ) { uri ->
+        if (uri != null) {
+            themeViewModel.updateBackgroundUri(uri.toString())
+        }
+    }
 
     StellarCard(
         title = "\u2728 Interface Style",
@@ -66,8 +72,8 @@ fun ThemeCustomizationCard() {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            ThemePreset.values().forEach { preset ->
-                val isActive = selectedPreset == preset
+            ThemePreset.entries.forEach { preset ->
+                val isActive = themeState.selectedPreset == preset
                 Box(
                     modifier = Modifier
                         .weight(1f)
@@ -81,7 +87,7 @@ fun ThemeCustomizationCard() {
                             color = if (isActive) MaterialTheme.colorScheme.primary else Color.Transparent,
                             shape = RoundedCornerShape(12.dp),
                         )
-                        .clickable { selectedPreset = preset }
+                        .clickable { themeViewModel.updatePreset(preset) }
                         .padding(vertical = 10.dp),
                     contentAlignment = Alignment.Center,
                 ) {
@@ -111,7 +117,7 @@ fun ThemeCustomizationCard() {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             accentColors.forEach { accent ->
-                val isActive = selectedAccent == accent
+                val isActive = themeState.selectedAccent == accent
                 Box(
                     modifier = Modifier
                         .size(36.dp)
@@ -122,7 +128,7 @@ fun ThemeCustomizationCard() {
                                 Modifier.border(2.5.dp, MaterialTheme.colorScheme.onSurface, CircleShape)
                             } else Modifier
                         )
-                        .clickable { selectedAccent = accent },
+                        .clickable { themeViewModel.updateAccent(accent) },
                     contentAlignment = Alignment.Center,
                 ) {
                     if (isActive) {
@@ -142,7 +148,7 @@ fun ThemeCustomizationCard() {
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.surfaceVariant)
                     .border(1.dp, MaterialTheme.colorScheme.outline, CircleShape)
-                    .clickable { showColorPicker = !showColorPicker },
+                    .clickable { bgPickerLauncher.launch("image/*") },
                 contentAlignment = Alignment.Center,
             ) {
                 Icon(
@@ -157,7 +163,7 @@ fun ThemeCustomizationCard() {
         Spacer(Modifier.height(16.dp))
 
         Button(
-            onClick = { /* background picker */ },
+            onClick = { bgPickerLauncher.launch("image/*") },
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(12.dp),
             colors = ButtonDefaults.buttonColors(
@@ -185,8 +191,8 @@ fun ThemeCustomizationCard() {
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
         Slider(
-            value = blurValue,
-            onValueChange = { blurValue = it },
+            value = themeState.blurValue,
+            onValueChange = { themeViewModel.updateBlur(it) },
             valueRange = 0f..1f,
             modifier = Modifier.fillMaxWidth(),
             colors = SliderDefaults.colors(

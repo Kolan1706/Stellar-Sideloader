@@ -20,4 +20,10 @@ object AppPrefs {
     const val UMOUNT_SD = "umount_sd"
     const val DISABLE_STORAGE_CHECK = "disable_storage_check"
     const val FULL_LOGCAT_LOGGING = "full_logcat_logging"
+
+    // Theme
+    const val THEME_ACCENT = "theme_accent"
+    const val THEME_PRESET = "theme_preset"
+    const val THEME_BLUR = "theme_blur"
+    const val THEME_BACKGROUND_URI = "theme_background_uri"
 }
