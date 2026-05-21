@@ -38,7 +38,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import vegabobo.dsusideloader.ui.theme.stellar.*
+import vegabobo.dsusideloader.ui.theme.stellar.StellarAccent
+import vegabobo.dsusideloader.ui.theme.stellar.ThemePreset
 
 @Composable
 fun ThemeCustomizationCard() {

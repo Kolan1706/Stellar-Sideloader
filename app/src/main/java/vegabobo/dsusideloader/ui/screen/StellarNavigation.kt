@@ -25,7 +25,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import vegabobo.dsusideloader.ui.screen.about_fork.ForkAboutScreen
+import vegabobo.dsusideloader.ui.screen.aboutfork.ForkAboutScreen
 import vegabobo.dsusideloader.ui.screen.downloads.DownloadsScreen
 import vegabobo.dsusideloader.ui.screen.flash.FlashScreen
 import vegabobo.dsusideloader.ui.theme.stellar.NavActive

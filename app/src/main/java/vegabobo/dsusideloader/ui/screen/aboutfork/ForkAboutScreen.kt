@@ -1,4 +1,4 @@
-package vegabobo.dsusideloader.ui.screen.about_fork
+package vegabobo.dsusideloader.ui.screen.aboutfork
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
