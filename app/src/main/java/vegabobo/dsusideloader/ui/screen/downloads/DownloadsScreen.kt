@@ -41,10 +41,7 @@ fun DownloadsScreen(
                     Icon(Icons.Filled.Refresh, contentDescription = "Refresh")
                 }
             },
-            colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.surface,
-                titleContentColor = MaterialTheme.colorScheme.onSurface,
-            ),
+            backgroundColor = MaterialTheme.colorScheme.surface,
         )
 
         when {

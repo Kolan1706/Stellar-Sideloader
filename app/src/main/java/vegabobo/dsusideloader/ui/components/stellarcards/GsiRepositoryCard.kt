@@ -54,7 +54,7 @@ fun GsiRepositoryCard(
     error: String?,
     onRetry: (() -> Unit)? = null,
 ) {
-    val infiniteTransition = rememberInfiniteTransition(label = "progress")
+    val infiniteTransition = rememberInfiniteTransition()
     val animatedProgress by infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = 1f,
@@ -62,7 +62,6 @@ fun GsiRepositoryCard(
             animation = tween(2000, easing = LinearEasing),
             repeatMode = RepeatMode.Restart,
         ),
-        label = "progress",
     )
 
     StellarCard(
@@ -126,7 +125,7 @@ fun GsiRepositoryCard(
 
         Spacer(Modifier.height(8.dp))
         LinearProgressIndicator(
-            progress = { animatedProgress },
+            progress = animatedProgress,
             modifier = Modifier.fillMaxWidth().height(4.dp).clip(RoundedCornerShape(2.dp)),
             color = NavActive,
             trackColor = NavActive.copy(alpha = 0.2f),

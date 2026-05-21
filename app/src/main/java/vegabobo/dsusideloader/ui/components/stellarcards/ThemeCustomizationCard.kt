@@ -28,7 +28,6 @@ import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -40,15 +39,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import vegabobo.dsusideloader.ui.theme.stellar.StellarAccent
 import vegabobo.dsusideloader.ui.theme.stellar.ThemePreset
+import vegabobo.dsusideloader.ui.theme.stellar.toColor
 
 @Composable
 fun ThemeCustomizationCard() {
     var selectedPreset by remember { mutableStateOf(ThemePreset.SPACE_CUSTOM) }
     var selectedAccent by remember { mutableStateOf(StellarAccent.PURPLE) }
-    var blurValue by remember { mutableFloatStateOf(0.3f) }
+    var blurValue by remember { mutableStateOf(0.3f) }
     var showColorPicker by remember { mutableStateOf(false) }
 
-    val accentColors = StellarAccent.entries
+    val accentColors = StellarAccent.values()
 
     StellarCard(
         title = "\u2728 Interface Style",
@@ -66,7 +66,7 @@ fun ThemeCustomizationCard() {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            ThemePreset.entries.forEach { preset ->
+            ThemePreset.values().forEach { preset ->
                 val isActive = selectedPreset == preset
                 Box(
                     modifier = Modifier
